@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoilSense – AI Soil Fertility Prediction</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="nav-dot"></span>
+      SoilSense
+    </div>
+    <span class="nav-badge">Powered by Gemini AI — Free</span>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-tag">🌾 For Every Farmer</div>
+    <h1 class="hero-title">Know Your Soil.<br /><em>Grow Better.</em></h1>
+    <p class="hero-sub">Upload your soil test report photo or PDF. Our free AI instantly reads it, predicts fertility, and recommends the best crops for your land.</p>
+  </section>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="container">
+
+
+
+
+
+    <!-- UPLOAD CARD -->
+    <div class="upload-card" id="uploadCard">
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon-wrap">📄</div>
+        <h2 class="upload-title">Upload Soil Test Report</h2>
+        <p class="upload-desc">Drag & drop your file here, or click to browse</p>
+        <div class="upload-types">
+          <span class="type-pill">📷 Photo (JPG/PNG)</span>
+          <span class="type-pill">📄 PDF Report</span>
+          <span class="type-pill">🖼️ Scanned Image</span>
+        </div>
+        <button class="btn-upload" id="browseBtn">📁 Choose File</button>
+        <input type="file" id="fileInput" accept="image/*,.pdf" />
+      </div>
+
+      <!-- FILE PREVIEW -->
+      <div class="file-preview" id="filePreview">
+        <div class="preview-thumb" id="previewThumb">📄</div>
+        <div class="preview-info">
+          <div class="preview-name" id="previewName">—</div>
+          <div class="preview-size" id="previewSize">—</div>
+        </div>
+        <button class="btn-remove" id="removeBtn">✕ Remove</button>
+      </div>
+    </div>
+
+    <div class="or-divider">OR ENTER VALUES MANUALLY</div>
+
+    <!-- MANUAL INPUT CARD -->
+    <div class="manual-card" id="manualCard">
+      <div class="manual-header" id="manualHeader">
+        <div class="manual-header-left">
+          <div class="manual-icon">🧪</div>
+          <span>Enter soil values from your report</span>
+        </div>
+        <span class="manual-chevron" id="manualChevron">▼</span>
+      </div>
+
+      <div class="manual-body" id="manualBody">
+        <div class="fields-grid">
+          <div class="field-group">
+            <label>🌿 NITROGEN – N (kg/ha)</label>
+            <input type="number" id="nitrogen" placeholder="e.g. 140" min="0" max="600" inputmode="numeric" />
+            <span class="field-hint">Typical: 80–200</span>
+          </div>
+          <div class="field-group">
+            <label>🌸 PHOSPHORUS – P (kg/ha)</label>
+            <input type="number" id="phosphorus" placeholder="e.g. 45" min="0" max="200" inputmode="numeric" />
+            <span class="field-hint">Typical: 20–80</span>
+          </div>
+          <div class="field-group">
+            <label>🍂 POTASSIUM – K (kg/ha)</label>
+            <input type="number" id="potassium" placeholder="e.g. 200" min="0" max="600" inputmode="numeric" />
+            <span class="field-hint">Typical: 100–350</span>
+          </div>
+          <div class="field-group">
+            <label>💧 MOISTURE (%)</label>
+            <input type="number" id="moisture" placeholder="e.g. 35" min="0" max="100" inputmode="numeric" />
+            <span class="field-hint">Typical: 20–60%</span>
+          </div>
+          <div class="field-group">
+            <label>🌡️ TEMPERATURE (°C)</label>
+            <input type="number" id="temperature" placeholder="e.g. 25" min="0" max="60" inputmode="numeric" />
+            <span class="field-hint">Typical: 15–35°C</span>
+          </div>
+          <div class="field-group">
+            <label>⚗️ SOIL pH — <span id="phDisplay">6.5</span></label>
+            <input type="range" id="ph" min="3" max="10" step="0.1" value="6.5" />
+            <span class="field-hint">Ideal: 5.5–7.0</span>
+          </div>
+        </div>
+
+        <!-- CROP SELECTOR -->
+        <div class="crop-selector">
+          <div class="crop-label">🌾 WHAT DO YOU PLAN TO GROW? (optional)</div>
+          <div class="crop-grid" id="cropGrid">
+            <button class="crop-btn" data-crop="rice"><span>🌾</span><span>Rice</span></button>
+            <button class="crop-btn" data-crop="wheat"><span>🌿</span><span>Wheat</span></button>
+            <button class="crop-btn" data-crop="maize"><span>🌽</span><span>Maize</span></button>
+            <button class="crop-btn" data-crop="cotton"><span>🌸</span><span>Cotton</span></button>
+            <button class="crop-btn" data-crop="sugarcane"><span>🎋</span><span>Sugarcane</span></button>
+            <button class="crop-btn" data-crop="soybean"><span>🫘</span><span>Soybean</span></button>
+            <button class="crop-btn" data-crop="vegetables"><span>🥬</span><span>Vegetables</span></button>
+            <button class="crop-btn" data-crop="fruits"><span>🍎</span><span>Fruits</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div class="error-msg" id="errorMsg"></div>
+
+    <!-- ANALYZE BUTTON -->
+    <button class="btn-analyze" id="analyzeBtn">
+      <span>🔬</span>
+      <span>Analyze My Soil</span>
+    </button>
+
+    <!-- ANALYZING LOADER -->
+    <div class="analyzing-card" id="analyzingCard">
+      <div class="analyzing-spinner"></div>
+      <div class="analyzing-title">Analyzing your soil...</div>
+      <div class="analyzing-sub">Gemini AI is reading your report carefully</div>
+      <div class="anim-steps" id="animSteps">
+        <div class="anim-step" style="animation-delay:0.3s"><div class="step-dot"></div>Reading uploaded file</div>
+        <div class="anim-step" style="animation-delay:0.9s"><div class="step-dot"></div>Extracting NPK & pH values</div>
+        <div class="anim-step" style="animation-delay:1.5s"><div class="step-dot"></div>Calculating fertility score</div>
+        <div class="anim-step" style="animation-delay:2.1s"><div class="step-dot"></div>Matching best crops</div>
+        <div class="anim-step" style="animation-delay:2.7s"><div class="step-dot"></div>Preparing your results</div>
+      </div>
+    </div>
+
+    <!-- ── RESULTS ── -->
+    <div id="result">
+
+      <!-- FARMER INFO (if extracted) -->
+      <div class="farmer-card" id="farmerCard" style="display:none;">
+        <div class="farmer-icon">👨‍🌾</div>
+        <div class="farmer-info">
+          <div class="farmer-name" id="farmerName"></div>
+          <div class="farmer-location" id="farmerLocation"></div>
+          <div class="farmer-sample" id="farmerSample"></div>
+        </div>
+      </div>
+
+      <!-- VERDICT -->
+      <div class="verdict-card" id="verdictCard">
+        <div class="verdict-top">
+          <div class="verdict-emoji" id="verdictEmoji"></div>
+          <div>
+            <div class="verdict-rating" id="verdictRating"></div>
+            <div class="verdict-score" id="verdictScore"></div>
+          </div>
+        </div>
+        <div class="verdict-desc" id="verdictDesc"></div>
+      </div>
+
+      <!-- NUTRIENTS -->
+      <div class="result-card">
+        <div class="result-card-title">📊 Nutrient Levels</div>
+        <div id="nutrientBars"></div>
+      </div>
+
+      <!-- CROPS -->
+      <div class="result-card">
+        <div class="result-card-title">🌱 Best Crops for Your Soil</div>
+        <div class="crop-recs" id="cropRecs"></div>
+      </div>
+
+      <!-- AI ADVICE -->
+      <div class="ai-card">
+        <div class="result-card-title" style="margin-top:8px;">Detailed AI Recommendation</div>
+        <div class="ai-text" id="aiText"></div>
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="result-actions">
+        <button class="btn-print" onclick="window.print()">🖨️ Print Results</button>
+        <button class="btn-reset" id="resetBtn">↩ Analyze Another Sample</button>
+      </div>
+
+    </div>
+    <!-- END RESULTS -->
+
+  </main>
+
+  <footer class="footer">
+    🌱 SoilSense — Free AI for Farmers &nbsp;|&nbsp; Powered by Google Gemini API
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
